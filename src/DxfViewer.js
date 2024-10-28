@@ -217,6 +217,10 @@ export class DxfViewer {
                      indices ${scene.indices.byteLength} B
                      transforms ${scene.transforms.byteLength} B`)
 
+        console.log(scene.batches);
+        console.log(scene.layers);
+        console.log(scene.blocks);
+
         /* Instantiate all entities. */
         for (const batch of scene.batches) {
             this._LoadBatch(scene, batch)
@@ -266,6 +270,19 @@ export class DxfViewer {
         }
         for (const obj of layer.objects) {
             obj.visible = show
+        }
+        this.Render()
+    }
+
+    SetLayerColor(name, color) {
+        console.log("SetLayerColor", name, color);
+        this._EnsureRenderer()
+        const layer = this.layers.get(name)
+        if (!layer) {
+            return
+        }
+        for (const obj of layer.objects) {
+            obj.color = color
         }
         this.Render()
     }
